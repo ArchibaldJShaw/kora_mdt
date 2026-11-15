@@ -196,6 +196,6 @@ for _, record in ipairs(C.firearms.shopRecords) do
         recordsClerks[#recordsClerks + 1] = entry
         registerRecordsClerk(entry)
     else
-        print(('^1[kora_mdt]^7 records clerk failed to spawn: %s'):format(tostring(err)))
+        Kora.logging.error('clerk.spawn_failed', 'Records clerk failed to spawn', { error = tostring(err) })
     end
 end
