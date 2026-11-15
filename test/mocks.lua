@@ -108,6 +108,9 @@ function M.install()
     local nextAuthorization, nextProof = 0, 0
     local issuedAuthorizations, proofs = {}, {}
     _G.Kora = {
+        logging = setmetatable({ isEnabled = function() return false end }, {
+            __index = function() return function() return true end end,
+        }),
         callback = {
             registry = {},
             register = function(name, callback) Kora.callback.registry[name] = callback end,

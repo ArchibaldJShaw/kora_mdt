@@ -354,7 +354,7 @@ local function openTerminal(role, policeBoss)
     -- A list that cannot load says why (and logs it) instead of showing an empty table.
     local function listFailed(viewId, slot, what, err)
         err = tostring(err or 'no response from the server')
-        print(('^1[kora_mdt]^7 could not load %s: %s'):format(what, err))
+        Kora.logging.error('terminal.list_load_failed', 'Could not load a terminal list', { what = tostring(what), error = err })
         local view = findView(viewId)
         local blocks = view and view.content and view.content.blocks
         if blocks and (blocks[slot] == nil or blocks[slot].type == 'empty') then

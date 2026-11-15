@@ -53,3 +53,4 @@ checkout. Keep resource-specific inventory and definitions when refreshing the s
 ---
 
 Copyright © 2026 Kora Framework.
+- Diagnostics use Kora.logging, not print

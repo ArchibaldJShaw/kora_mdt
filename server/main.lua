@@ -54,7 +54,7 @@ local function personExists(cid)
     return cid and Kora.sql.single('SELECT `citizenid` FROM `players` WHERE `citizenid` = ? AND `deleted_at` IS NULL', { cid }) ~= nil
 end
 local function logError(where, err)
-    print(('^1[kora_mdt]^7 %s: %s'):format(where, tostring(err)))
+    Kora.logging.error('mdt.operation_failed', 'A records operation failed', { where = tostring(where), error = tostring(err) })
 end
 -- Exact, case-insensitive full-name lookup. Returns the citizen ID of a single match,
 -- nil for no match, or nil plus true when several citizens share the name.
@@ -173,13 +173,13 @@ AddEventHandler('kora_mdt:server:databaseReady', function()
         local _, err = Kora.sql.execute('INSERT IGNORE INTO `kora_mdt_charges` (`code`,`label`,`fine`) VALUES (?,?,?)',
             { charge.code, charge.label, math.max(0, math.floor(tonumber(charge.fine) or 0)) })
         if err then
-            print(('^1[kora_mdt]^7 charge seed failed for %s: %s'):format(charge.code, tostring(err)))
+            Kora.logging.error('charges.seed_failed', 'Charge seed failed', { code = tostring(charge.code), error = tostring(err) })
             return
         end
     end
     local rows, err = Kora.sql.query('SELECT `code`,`label`,`fine` FROM `kora_mdt_charges` WHERE `active` = 1 ORDER BY `label`,`code`')
     if not rows then
-        print(('^1[kora_mdt]^7 charge cache load failed: %s'):format(tostring(err or 'database query failed')))
+        Kora.logging.error('charges.cache_load_failed', 'Charge cache load failed', { error = tostring(err or 'database query failed') })
         return
     end
     chargeCache = rows
@@ -210,7 +210,7 @@ AddEventHandler('kora_inventory:server:itemPurchased', function(src, purchase)
             (`serial`,`weapon_name`,`owner_citizenid`,`licence_number`,`shop_id`) VALUES (?,?,?,?,?)
             ON DUPLICATE KEY UPDATE `owner_citizenid` = VALUES(`owner_citizenid`), `licence_number` = VALUES(`licence_number`)]],
             { serial, purchase.itemName, cid, licence, C.firearms.shopId })
-        if err then print(('^1[kora_mdt]^7 firearm registration failed: %s'):format(tostring(err))) end
+        if err then Kora.logging.error('firearms.registration_failed', 'Firearm registration failed', { error = tostring(err) }) end
     end)
 end)
 
