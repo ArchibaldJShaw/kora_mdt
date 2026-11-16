@@ -113,7 +113,7 @@ return {
         active_warrants = 'Mandados ativos',
         recent_reports = 'Relatórios recentes',
         no_incident_reports_have_been = 'Nenhum relatório de ocorrência foi submetido.',
-        
+
         updated = 'Atualizado',
         no_reports_found = 'Nenhum relatório encontrado.',
         investigation_files = 'Ficheiros de investigação',
