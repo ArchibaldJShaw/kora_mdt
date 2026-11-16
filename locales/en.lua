@@ -113,7 +113,7 @@ return {
         active_warrants = 'Active warrants',
         recent_reports = 'Recent reports',
         no_incident_reports_have_been = 'No incident reports have been filed.',
-        
+
         updated = 'Updated',
         no_reports_found = 'No reports found.',
         investigation_files = 'Investigation files',
